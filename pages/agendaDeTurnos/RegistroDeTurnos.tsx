@@ -1,4 +1,5 @@
 import * as React from "react";
+import data from "../../assets/mockdata";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -15,28 +16,22 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function createData(
   horario: string,
-  nombre: string,
   apellido: string,
-  mail: number,
-  telefono: number
+  nombre: string,
+  dni: string,
+  email: string,
+  telefono: string
 ) {
   return {
     horario,
-    nombre,
-    apellido,
-    mail,
-    telefono,
+    nombreCompleto: nombre + " " + apellido,
 
-    history: [
+    informacion: [
       {
-        date: "2020-01-05",
-        customerId: "11091700",
-        amount: 3,
-      },
-      {
-        date: "2020-01-02",
-        customerId: "Anonymous",
-        amount: 1,
+        Nombre: nombre,
+        DNI: dni,
+        Email: email,
+        Telefono: telefono,
       },
     ],
   };
@@ -58,40 +53,41 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="right">{row.name}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        <TableCell align="center">{row.horario}</TableCell>
+        <TableCell align="center">{row.nombreCompleto}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                Información
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell align="center">Nombre Completo</TableCell>
+                    <TableCell align="center">Numero De Documento</TableCell>
+                    <TableCell align="center">Email</TableCell>
+                    <TableCell align="center">Numero De Teléfono</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
+                  {row.informacion.map((informacionRow) => (
+                    <TableRow key={informacionRow.Nombre}>
+                      <TableCell align="center">
+                        {informacionRow.Nombre}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                      <TableCell align="center">{informacionRow.DNI}</TableCell>
+                      <TableCell align="center">
+                        <a href={"mailto:+" + informacionRow.Email}>
+                          {informacionRow.Email}
+                        </a>
+                      </TableCell>
+                      <TableCell align="center">
+                        <a href={"tel:+" + informacionRow.Telefono}>
+                          {informacionRow.Telefono}
+                        </a>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -104,15 +100,25 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     </React.Fragment>
   );
 }
-
+/*
 const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-  createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-  createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-  createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
+  createData("1 a.m.", "Nicole", " Silva"),
+  createData("2 a.m.", "Nazareno", "Fiorentino"),
+  createData("3 a.m.", "Gino", "Sarubbi"),
+  createData("4 a.m.", "Jeremias", "Barboza"),
+  createData("5 a.m.", "Matias", "Locaso"),
 ];
-
+*/
+const rows = data.map((d) => {
+  return createData(
+    d.horario,
+    d.apellido,
+    d.nombre,
+    d.dni,
+    d.email,
+    d.telefono
+  );
+});
 export default function CollapsibleTable() {
   return (
     <TableContainer component={Paper}>
@@ -120,15 +126,13 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Horario</TableCell>
-            <TableCell align="right">Nombre</TableCell>
-            <TableCell align="right">Mail&nbsp;</TableCell>
-            <TableCell align="right">Teléfono&nbsp;(g)</TableCell>
+            <TableCell align="center">Horario</TableCell>
+            <TableCell align="center">Nombre Completo</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <Row key={row.nombreCompleto} row={row} />
           ))}
         </TableBody>
       </Table>
