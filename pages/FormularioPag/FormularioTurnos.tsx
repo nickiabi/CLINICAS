@@ -5,6 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import styles from "./FormularioTurnos.module.css";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import axios from "axios";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -23,9 +24,8 @@ function RedBar() {
 }
 
 export default function LayoutTextFields() {
-  const [turnoSeleccionado, setTurnoSeleccionado] = React.useState(false);
   const [indexTurnoSeleccionado, setIndexTurnoSeleccionado] =
-    React.useState(-1);
+    React.useState(1);
   const turnos = [
     "23/05/2023 a las 15:30hs",
     "23/05/2023 a las 12:45hs",
@@ -37,13 +37,33 @@ export default function LayoutTextFields() {
     console.log("turno seleccionado actualmente " + indexTurnoSeleccionado);
     return () => {
       console.log("se ejecuto el handle con " + indexTurno);
-      setTurnoSeleccionado(true);
-      setIndexTurnoSeleccionado(turnoSeleccionado ? indexTurno : 0);
+      setIndexTurnoSeleccionado(indexTurno);
     };
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('fue enviado');
+    try {
+      const res = await axios({
+        method: "post",
+        url: '10.9.120.99:3000/api/donador',
+        data: {
+          nombre: "nicole",
+          apellido: "silva",
+          dni: "44892194",
+          email: "nicki@gmail.com",
+          telefono: "1121939932",
+          fecha: "12/08/22 09:00:00",
+          
+        },
+        headers:{
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res.status);
+    } catch (error) {
+      console.log(error);
+    }
 
 
   }
@@ -57,8 +77,8 @@ export default function LayoutTextFields() {
 
       <RedBar />
 
-      <TextField label={"Nombre"} id="Nombre" required={true} />
-      <TextField label={"Apellido"} id="Apellido" margin="normal" required={true} />
+      <TextField label={"Nombre"} id="Nombre" required={true} type="text" />
+      <TextField label={"Apellido"} id="Apellido" margin="normal" required={true} type="text" />
       <TextField required={true} type="text"
         label={"Documento De Identidad"}
         id="DocumentoDeIdentidad"
@@ -83,7 +103,7 @@ export default function LayoutTextFields() {
           {turnos.map((turno, index) => (
             <FormControlLabel
               checked={
-                turnoSeleccionado ? index === indexTurnoSeleccionado : false
+                index === indexTurnoSeleccionado
               }
               onChange={createHandleChangeTurno(index)}
               key={index}
@@ -92,12 +112,12 @@ export default function LayoutTextFields() {
             />
           ))}
           <div>
-            <br/>
+            <br />
             <button className={styles.boton}>
               Enviar
             </button>
           </div>
-          <br />  
+          <br />
         </FormGroup>
       </div>
     </form>
