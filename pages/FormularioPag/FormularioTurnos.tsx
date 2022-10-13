@@ -41,34 +41,35 @@ export default function LayoutTextFields() {
       setIndexTurnoSeleccionado(turnoSeleccionado ? indexTurno : 0);
     };
   };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('fue enviado');
+
+
+  }
 
   return (
-    <Box
-      className={styles.contenedor}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        "& .MuiTextField-root": { width: "25ch" },
-      }}
-    >
+    <form onSubmit={handleSubmit}
+      className={styles.contenedor}>
+
       <RedBar />
       <p> Completá con tus datos el siguiente formulario </p>
 
       <RedBar />
 
-      <TextField label={"Nombre"} id="Nombre" />
-      <TextField label={"Apellido"} id="Apellido" margin="normal" />
-      <TextField
+      <TextField label={"Nombre"} id="Nombre" required={true} />
+      <TextField label={"Apellido"} id="Apellido" margin="normal" required={true} />
+      <TextField required={true} type="text"
         label={"Documento De Identidad"}
         id="DocumentoDeIdentidad"
         margin="normal"
       />
-      <TextField
+      <TextField required={true} type="Email"
         label={"Correo Electronico"}
         id="CorreoElectronico"
         margin="normal"
       />
-      <TextField
+      <TextField required={true} type="number"
         label={"Numero De Telefono"}
         id="NumeroDeTelefono"
         margin="normal"
@@ -90,9 +91,15 @@ export default function LayoutTextFields() {
               label={turno}
             />
           ))}
-          <br />
+          <div>
+            <br/>
+            <button className={styles.boton}>
+              Enviar
+            </button>
+          </div>
+          <br />  
         </FormGroup>
       </div>
-    </Box>
+    </form>
   );
 }

@@ -6,6 +6,15 @@
   align-content: center;
   align-items: center;
 }
-.contenedorCheck {
-    
+.boton{
+  background-color: #2d13a3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  padding: 10px 24px;
+  border-radius: 4px;
 }
