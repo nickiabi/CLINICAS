@@ -6,6 +6,8 @@ import styles from "./FormularioTurnos.module.css";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Button } from "@mui/material";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -22,38 +24,36 @@ function RedBar() {
     />
   );
 }
-
+const turnos = [
+  "23/05/2023 a las 15:30hs",
+  "23/05/2023 a las 12:45hs",
+  "23/05/2023 a las 18:30hs",
+];
 export default function LayoutTextFields() {
-  const [indexTurnoSeleccionado, setIndexTurnoSeleccionado] =
-    React.useState(1);
-  const turnos = [
-    "23/05/2023 a las 15:30hs",
-    "23/05/2023 a las 12:45hs",
-    "23/05/2023 a las 18:30hs",
-  ];
+  const [indexTurnoSeleccionado, setIndexTurnoSeleccionado ]=
+    useState(1);
+  
+const [datosTurno, setDatosTurno]=
+  useState({
+    nombre:" ",
+    apellido:" ",
+    dni:" ",
+    email: " ",
+    telefono: " ",
+    fecha: " ",
 
-  const createHandleChangeTurno = (indexTurno: number) => {
-    console.log("se creo un handle con " + indexTurno);
-    console.log("turno seleccionado actualmente " + indexTurnoSeleccionado);
-    return () => {
-      console.log("se ejecuto el handle con " + indexTurno);
-      setIndexTurnoSeleccionado(indexTurno);
-    };
-  };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  });
+
+  
+  const handleSubmit = async () => {
     console.log('fue enviado');
     try {
       const res = await axios({
         method: "post",
-        url: '10.9.120.99:3000/api/donador',
+        url: 'http://10.9.121.245:3000/api/donador',
         data: {
-          nombre: "nicole",
-          apellido: "silva",
-          dni: "44892194",
-          email: "nicki@gmail.com",
-          telefono: "1121939932",
-          fecha: "12/08/22 09:00:00",
+         ...datosTurno,
+         fecha: new Date().toString()
           
         },
         headers:{
@@ -67,9 +67,22 @@ export default function LayoutTextFields() {
 
 
   }
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
+    setDatosTurno({
+      ...datosTurno,
+      [ e.target.name]: e.target.value,
+    });
+  };
+  
+  const createHandleChangeTurno = (indexTurno: number) => {
+    return () => {
+      setIndexTurnoSeleccionado(indexTurno);
+    };
+  };
+
 
   return (
-    <form onSubmit={handleSubmit}
+    <Box
       className={styles.contenedor}>
 
       <RedBar />
@@ -77,19 +90,19 @@ export default function LayoutTextFields() {
 
       <RedBar />
 
-      <TextField label={"Nombre"} id="Nombre" required={true} type="text" />
-      <TextField label={"Apellido"} id="Apellido" margin="normal" required={true} type="text" />
-      <TextField required={true} type="text"
+      <TextField name="nombre" onChange={handleChangeForm} label={"Nombre"} id="Nombre" required={true} type="text" />
+      <TextField name="apellido" onChange={handleChangeForm} label={"Apellido"} id="Apellido" margin="normal" required={true} type="text" />
+      <TextField name="dni" onChange={handleChangeForm} required={true} type="text"
         label={"Documento De Identidad"}
         id="DocumentoDeIdentidad"
         margin="normal"
       />
-      <TextField required={true} type="Email"
+      <TextField name="email" onChange={handleChangeForm} required={true} type="Email"
         label={"Correo Electronico"}
         id="CorreoElectronico"
         margin="normal"
       />
-      <TextField required={true} type="number"
+      <TextField name="telefono" onChange={handleChangeForm} required={true} type="number"
         label={"Numero De Telefono"}
         id="NumeroDeTelefono"
         margin="normal"
@@ -113,13 +126,13 @@ export default function LayoutTextFields() {
           ))}
           <div>
             <br />
-            <button className={styles.boton}>
+            <Button onClick={handleSubmit} className={styles.boton}>
               Enviar
-            </button>
+            </Button>
           </div>
           <br />
         </FormGroup>
       </div>
-    </form>
+    </Box>
   );
 }
