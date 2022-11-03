@@ -8,9 +8,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "@mui/material";
-import { postTurno } from "../service";
+import { getTurnosDisponible, postTurno } from "../service";
 import LinearProgress from "@mui/material/LinearProgress";
 import Alert from "@mui/material/Alert";
+import { Turno } from "../interfaces";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -27,14 +28,9 @@ function RedBar() {
     />
   );
 }
-const turnos = [
-  "23/05/2023 a las 15:30hs",
-  "23/05/2023 a las 12:45hs",
-  "23/05/2023 a las 18:30hs",
-];
-export default function LayoutTextFields() {
-  const [indexTurnoSeleccionado, setIndexTurnoSeleccionado] = useState(1);
 
+export default function LayoutTextFields({ turnos }: { turnos: Turno[] }) {
+  const [indexTurnoSeleccionado, setIndexTurnoSeleccionado] = useState(1);
   const [datosTurno, setDatosTurno] = useState({
     nombre: " ",
     apellido: " ",
@@ -140,7 +136,7 @@ export default function LayoutTextFields() {
                 onChange={createHandleChangeTurno(index)}
                 key={index}
                 control={<Checkbox defaultChecked />}
-                label={turno}
+                label={turno.toString()}
               />
             ))}
             <div>

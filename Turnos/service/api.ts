@@ -1,3 +1,4 @@
 export const api = {
-    turno: `${process.env.NEXT_PUBLIC_API_URL}/turno`,
+    postTurno: `${process.env.NEXT_PUBLIC_API_URL}/turno`,
+    getTurnosDisponible: `${process.env.NEXT_PUBLIC_API_URL}/turnos?estado=disponible` 
   };

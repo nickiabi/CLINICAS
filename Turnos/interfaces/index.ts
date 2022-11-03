@@ -6,5 +6,14 @@ export type TurnosProps = {
     dni: string ;
     fecha: string;
   };
+  export type Turno ={
+    id: number;
+    fecha: string;
+    donador: {
+      url: string;
+    }
+    url: string;
+
+  }
   
   
