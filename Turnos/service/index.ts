@@ -8,5 +8,6 @@ export const postTurno = async (data: TurnosProps) => {
     ...data,
     id: res.data.id,
     url: res.data.url,
+    status: res.status === 201 ? "okey": "error"
   };
 };
