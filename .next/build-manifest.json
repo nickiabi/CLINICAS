@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/infoAdmins/infoAdm": [
+    "/turno": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/infoAdmins/infoAdm.js"
+      "static/chunks/pages/turno.js"
     ]
   },
   "ampFirstPages": []
