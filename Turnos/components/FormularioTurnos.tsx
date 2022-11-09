@@ -136,7 +136,7 @@ export default function LayoutTextFields({ turnos }: { turnos: string[] }) {
                 onChange={createHandleChangeTurno(index)}
                 key={index}
                 control={<Checkbox defaultChecked />}
-                label={turno.toString()}
+                label={new Date(turno).toLocaleString()}
               />
             ))}
             <div>
