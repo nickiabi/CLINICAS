@@ -4,14 +4,20 @@ import { Turno } from "./interfaces";
 import { getTurnosDisponible } from "./service";
 
 const index = () => {
-  const [turnosDisponibles, setTurnosDisponibles] = useState<Turno[]>([]);
+  const [turnosDisponibles, setTurnosDisponibles] = useState<string[]>([]);
   useEffect(() => {
     async function get() {
-      const res = await getTurnosDisponible();
-      setTurnosDisponibles(res.turnos);
+      try {
+        const res = await getTurnosDisponible();
+        setTurnosDisponibles(res.turnos);   
+      } catch (error) {
+        console.log("error");
+      }
+     
     }
     get();
-  });
+  },[]
+  );
 
   return <Formulario turnos={turnosDisponibles} />;
 };

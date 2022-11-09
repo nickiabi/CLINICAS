@@ -29,7 +29,7 @@ function RedBar() {
   );
 }
 
-export default function LayoutTextFields({ turnos }: { turnos: Turno[] }) {
+export default function LayoutTextFields({ turnos }: { turnos: string[] }) {
   const [indexTurnoSeleccionado, setIndexTurnoSeleccionado] = useState(1);
   const [datosTurno, setDatosTurno] = useState({
     nombre: " ",

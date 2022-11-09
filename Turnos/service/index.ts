@@ -1,6 +1,6 @@
 import axios from "axios";
 import { api } from "./api";
-import { Turno, TurnosProps } from "../interfaces";
+import { TurnosProps } from "../interfaces";
 
 
 export const postTurno = async (data: TurnosProps) => {
@@ -14,7 +14,6 @@ export const postTurno = async (data: TurnosProps) => {
 };
 export const getTurnosDisponible = async() =>{
   const res = await axios.get(api.getTurnosDisponible);
-  const turnos: string[] = res.data;
   
   return{
     turnos: res.data as string[],
